@@ -1,0 +1,5 @@
+data/crime_news_fiscalia.csv filter=lfs diff=lfs merge=lfs -text
+data/health_insurance_affiliated_adres.csv filter=lfs diff=lfs merge=lfs -text
+data/municipalities_dane.csv filter=lfs diff=lfs merge=lfs -text
+data/non_fatal_injuries_med_legal.csv filter=lfs diff=lfs merge=lfs -text
+data/sisben_iv_hogares_dnp.csv filter=lfs diff=lfs merge=lfs -text
