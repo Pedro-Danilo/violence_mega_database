@@ -38,8 +38,8 @@ data_base/
 
 ### 1. Clonar el Repositorio
 ```bash
-git clone https://github.com/Pedro-Danilo/mega_database_project.git
-cd mega_database_project
+git clone https://github.com/Pedro-Danilo/violence_mega_database.
+cd violence_mega_database
 git lfs install
 ```
 
