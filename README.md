@@ -11,11 +11,12 @@ El objetivo es proporcionar una herramienta para analizar la relación entre var
 ```plaintext
 data_base/
 ├── data/                  # Archivos CSV con datos de cada tabla
-├── notebooks_etl/         # Cuadernos Jupyter para la transformación de datos
-├── schema.sql             # Esquema SQL de la base de datos
 ├── documentation/         # Documentos complementarios (diccionario de datos, descripciones de tablas)
+├── notebooks_etl/         # Cuadernos Jupyter para la transformación de datos
+├── .gitattributes         # Configuración de Git LFS
+├── FILES.md               # Lista de archivos grandes con enlaces a Google Drive
 ├── README.md              # Documentación del proyecto
-└── LICENSE                # Licencia del repositorio
+└── schema.sql             # Esquema SQL de la base de datos
 ```
 
 ### Archivos Principales
@@ -56,7 +57,7 @@ git lfs install
    psql -U usuario -d mega_db -f schema.sql
    ```
 
-### 3. Importar los Datos
+### 3. Importar los Datos a la base de datos
 Es importante respetar el siguiente orden de carga debido a las relaciones entre tablas:
 
 1. **Tablas independientes**:
@@ -66,35 +67,44 @@ Es importante respetar el siguiente orden de carga debido a las relaciones entre
 2. **Tablas dependientes**:
    - Todas las demás tablas en el directorio `data/`.
 
-Puedes usar el siguiente script para cargar las tablas en orden:
-```bash
-#!/bin/bash
-DB_NAME="mega_db"
-USER="postgres"
-HOST="localhost"
+## Acceso a los Datos
 
-# Cargar tablas independientes primero
-for file in data_source.csv departments_dane.csv municipalities_dane.csv; do
-    TABLE_NAME=$(basename "$file" .csv)
-    echo "Importando $TABLE_NAME..."
-    psql -U $USER -d $DB_NAME -h $HOST -c "\copy $TABLE_NAME FROM './data/$file' DELIMITER ',' CSV HEADER;"
-done
+Dado el tamano de algunos archivos para subirlos al repositorio se gestionaron con Git LFS y con google drive.
 
-# Cargar las demás tablas
-for file in ./data/*.csv; do
-    TABLE_NAME=$(basename "$file" .csv)
-    if [[ "$TABLE_NAME" != "data_source" && "$TABLE_NAME" != "departments_dane" && "$TABLE_NAME" != "municipalities_dane" ]]; then
-        echo "Importando $TABLE_NAME..."
-        psql -U $USER -d $DB_NAME -h $HOST -c "\copy $TABLE_NAME FROM '$file' DELIMITER ',' CSV HEADER;"
-    fi
-done
-```
+### Archivos Gestionados con Git LFS
+Los siguientes archivos están en el directorio `data/` y son gestionados con **Git LFS**:
 
-### 4. Validación de la Carga
-Realiza consultas básicas para verificar la importación:
-```sql
-SELECT COUNT(*) FROM nombre_de_tabla;
-```
+- `data/crime_news_fiscalia.csv`
+- `data/health_insurance_affiliated_adres.csv`
+- `data/municipalities_dane.csv`
+- `data/non_fatal_injuries_med_legal.csv`
+- `data/sisben_iv_hogares_dnp.csv`
+
+Para asegurarte de descargar estos archivos correctamente:
+1. Instala **Git LFS**:
+   ```bash
+   git lfs install
+   ```
+2. Los archivos gestionados con LFS se descargarán automáticamente al clonar el repositorio.
+
+---
+
+### Archivos Disponibles en Google Drive
+Los archivos de datos adicionales están disponibles en Google Drive. Puedes descargarlos usando los siguientes enlaces:
+
+1. [crime_news_fiscalia.csv](https://drive.google.com/file/d/1yXtYgUxwJ34sgGNFG7J8YU33uZqevVFT/view?usp=sharing)
+2. [health_insurance_affiliated_adres.csv](https://drive.google.com/file/d/1UcPjHgSN7W6Y7A5LRYJAP_foVBrYW4MH/view?usp=sharing)
+3. [municipalities_dane.csv](https://drive.google.com/file/d/116MOPITIjJa86abf0iVR6m8qdUGd7yEp/view?usp=sharing)
+4. [non_fatal_injuries_med_legal.csv](https://drive.google.com/file/d/1Nz-cDztBFIpQiy9_5WIT98Hlyad_gVIA/view?usp=sharing)
+5. [sisben_iv_hogares_dnp.csv](https://drive.google.com/file/d/1fd7oi2p48StKLm7KKY4YEWbtkHH7DOJ9/view?usp=sharing)
+6. [File 6](https://drive.google.com/file/d/1ikmBPpAi91uFRpKANU3TtZ62i20FpcK3/view?usp=sharing)
+7. [File 7](https://drive.google.com/file/d/1iEyptyaTpt3d0rA7L3pc-16To11EKDJs/view?usp=sharing)
+8. [File 8](https://drive.google.com/file/d/1be0SMh7NKwF2nUwvxgUmcAHVynppOQuP/view?usp=sharing)
+9. [File 9](https://drive.google.com/file/d/1PQvw8rMOO_QF_X2F7BlxeaCbadDJidKW/view?usp=sharing)
+
+Descarga los archivos manualmente y colócalos en la carpeta `data/`.
+
+---
 
 ## Actualización de Datos
 Si necesitas actualizar los datos:
