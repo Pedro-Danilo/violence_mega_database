@@ -42,32 +42,7 @@ git clone https://github.com/Pedro-Danilo/violence_mega_database.
 cd violence_mega_database
 git lfs install
 ```
-
-### 2. Configurar PostgreSQL
-1. Crea una base de datos nueva en PostgreSQL:
-   ```sql
-   CREATE DATABASE mega_db;
-   \c mega_db
-   CREATE EXTENSION postgis;
-   ```
-   > **Nota**: Las tablas de sistema `geometry_columns`, `geography_columns` y `spatial_ref_sys` se crearán automáticamente al habilitar la extensión PostGIS.
-
-2. Ejecuta el script `schema.sql` para crear la estructura de la base de datos:
-   ```bash
-   psql -U usuario -d mega_db -f schema.sql
-   ```
-
-### 3. Importar los Datos a la base de datos
-Es importante respetar el siguiente orden de carga debido a las relaciones entre tablas:
-
-1. **Tablas independientes**:
-   - `data_source`
-   - `departments_dane`
-   - `municipalities_dane`
-2. **Tablas dependientes**:
-   - Todas las demás tablas en el directorio `data/`.
-
-## Acceso a los Datos
+## 2.  Acceso a los Datos
 
 Dado el tamano de algunos archivos para subirlos al repositorio se gestionaron con Git LFS y con google drive.
 
@@ -106,6 +81,30 @@ Descarga los archivos manualmente y colócalos en la carpeta `data/`.
 
 ---
 
+### 3. Configurar PostgreSQL
+1. Crea una base de datos nueva en PostgreSQL:
+   ```sql
+   CREATE DATABASE mega_db;
+   \c mega_db
+   CREATE EXTENSION postgis;
+   ```
+   > **Nota**: Las tablas de sistema `geometry_columns`, `geography_columns` y `spatial_ref_sys` se crearán automáticamente al habilitar la extensión PostGIS.
+
+2. Ejecuta el script `schema.sql` para crear la estructura de la base de datos:
+   ```bash
+   psql -U usuario -d mega_db -f schema.sql
+   ```
+
+### 4. Importar los Datos a la base de datos
+Es importante respetar el siguiente orden de carga debido a las relaciones entre tablas:
+
+1. **Tablas independientes**:
+   - `data_source`
+   - `departments_dane`
+   - `municipalities_dane`
+2. **Tablas dependientes**:
+   - Todas las demás tablas en el directorio `data/`.
+
 ## Actualización de Datos
 Si necesitas actualizar los datos:
 1. Usa los cuadernos en `notebooks_etl/` para regenerar los archivos CSV.
@@ -117,6 +116,5 @@ Si necesitas actualizar los datos:
   ```bash
   git lfs install
   ```
-
 ## Licencia
 Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para más detalles.
