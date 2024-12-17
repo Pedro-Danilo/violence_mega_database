@@ -105,6 +105,9 @@ Es importante respetar el siguiente orden de carga debido a las relaciones entre
 2. **Tablas dependientes**:
    - Todas las demás tablas en el directorio `data/`.
 
+> **Nota**: A la hora de importar los datos a las tablas de la base de datos tenga en cuenta que los archivos de datos csv incluyen el encabezado.
+
+
 ## Actualización de Datos
 Si necesitas actualizar los datos:
 1. Usa los cuadernos en `notebooks_etl/` para regenerar los archivos CSV.
